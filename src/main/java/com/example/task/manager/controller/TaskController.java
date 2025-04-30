@@ -1,11 +1,9 @@
 package com.example.task.manager.controller;
 
 import com.example.task.manager.dal.Task;
-import com.example.task.manager.dto.TaskDto;
+import com.example.task.manager.dto.CreateUpdateTaskDto;
 import com.example.task.manager.service.TaskService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +16,7 @@ public class TaskController {
     private final TaskService service;
 
     @PostMapping("/task")
-    public void create(@RequestBody TaskDto dto) {
+    public void create(@RequestBody CreateUpdateTaskDto dto) {
         service.create(dto);
     }
 
@@ -32,5 +30,17 @@ public class TaskController {
         return service.read();
     }
 
+    @PutMapping("/task/{id}")
+    public void update(
+            @PathVariable Integer id,
+            @RequestBody CreateUpdateTaskDto body
+    ) {
+        service.update(id, body);
+    }
+
+    @DeleteMapping("/task/{id}")
+    public void delete(@PathVariable Integer id) {
+        service.delete(id);
+    }
 
 }
