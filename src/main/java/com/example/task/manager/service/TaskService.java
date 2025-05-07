@@ -5,6 +5,7 @@ import com.example.task.manager.dal.Status;
 import com.example.task.manager.dal.Task;
 import com.example.task.manager.dto.CreateUpdateFeatureDto;
 import com.example.task.manager.dto.CreateUpdateTaskDto;
+import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -15,6 +16,11 @@ public class TaskService {
 
     private int sequence = 1;
     private final Map<Integer, Task> database = new HashMap<>();
+    private final String serviceName;
+
+    public TaskService(String serviceName) {
+        this.serviceName = serviceName;
+    }
 
     public void create(CreateUpdateTaskDto dto) {
         validate(dto);
@@ -81,10 +87,10 @@ public class TaskService {
 
     private void validate(CreateUpdateTaskDto dto) {
         if (dto.getTitle().length() >= 30) {
-            throw new RuntimeException("Длина заголовка больше 30 символов");
+            throw new RuntimeException("Длина заголовка больше 30 символов в сервисе: " + serviceName);
         }
         if (dto.getDescription().length() >= 200) {
-            throw new RuntimeException("Длина описания больше 200 символов");
+            throw new RuntimeException("Длина описания больше 200 символов в сервисе: " + serviceName);
         }
     }
 
