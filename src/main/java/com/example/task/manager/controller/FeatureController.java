@@ -5,8 +5,6 @@ import com.example.task.manager.dal.Task;
 import com.example.task.manager.dto.CreateUpdateFeatureDto;
 import com.example.task.manager.service.TaskService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +39,6 @@ public class FeatureController {
     }
 
     //TODO: реализовать PUT для Feature
-    //TODO: реализовать контроллер для Bug
 
     @GetMapping("/with-filters")
     public List<Task> getFirst(@RequestParam Integer limit) {

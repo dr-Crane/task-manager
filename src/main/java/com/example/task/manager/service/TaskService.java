@@ -51,8 +51,10 @@ public class TaskService {
     }
 
     public void delete(Integer id) {
-        //TODO: удаление подзадач у Feature
-        database.remove(id);
+        Task task = database.remove(id);
+        if (task instanceof Feature feature) {
+            feature.getSubtasks().forEach(subtask -> database.remove(subtask.getId()));
+        }
     }
 
     private <T extends Task> T map(T task, CreateUpdateTaskDto dto) {
