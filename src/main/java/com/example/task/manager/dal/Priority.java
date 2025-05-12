@@ -6,6 +6,8 @@ public enum Priority {
 
     TWO,
 
-    THREE
+    THREE,
+
+    FOUR
 
 }
