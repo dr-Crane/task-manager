@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Scope;
 public class BeanConfiguration {
 
     @Bean(name = "bugService")
-    @Scope("prototype")
     @Primary
     public TaskService bugService() {
         return new TaskService("bug");

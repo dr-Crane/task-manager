@@ -1,6 +1,5 @@
 package com.example.task.manager.controller.view;
 
-import com.example.task.manager.dal.Bug;
 import com.example.task.manager.dal.Priority;
 import com.example.task.manager.dal.Task;
 import com.example.task.manager.dto.CreateUpdateTaskDto;
