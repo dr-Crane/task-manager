@@ -1,38 +1,36 @@
 package com.example.task.manager.service;
 
 import com.example.task.manager.dal.Feature;
-import com.example.task.manager.dal.Status;
 import com.example.task.manager.dal.Task;
 import com.example.task.manager.dto.CreateUpdateFeatureDto;
 import com.example.task.manager.dto.CreateUpdateTaskDto;
-import org.springframework.stereotype.Component;
+import com.example.task.manager.mapper.TaskMapper;
+import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@RequiredArgsConstructor
 public class TaskService {
 
     private int sequence = 1;
     private final Map<Integer, Task> database = new HashMap<>();
-    private final String serviceName;
-
-    public TaskService(String serviceName) {
-        this.serviceName = serviceName;
-    }
+    private final TaskMapper mapper;
 
     public void create(CreateUpdateTaskDto dto) {
-        validate(dto);
-        Task task = map(new Task(), dto);
+        Task task = mapper.mapForCreate(sequence, dto);
+        sequence++;
         database.put(task.getId(), task);
     }
 
     public Integer create(CreateUpdateFeatureDto dto) {
-        validate(dto);
-        Feature feature = map(new Feature(), dto);
+        Feature feature = mapper.mapForCreateFeature(sequence, dto);
+        sequence++;
         dto.getSubtasks().forEach(task -> {
-            Task subtask = map(new Task(), task);
+            Task subtask = mapper.mapForCreate(sequence, task);
+            sequence++;
             database.put(subtask.getId(), subtask);
             feature.getSubtasks().add(subtask);
         });
@@ -49,48 +47,16 @@ public class TaskService {
     }
 
     public void update(Integer id, CreateUpdateTaskDto dto) {
-        validate(dto);
         Task task = database.get(id);
         task.setUpdatedAt(Instant.now());
-        Task result = map(task, dto);
-        database.put(id, result);
+        mapper.mapForUpdate(task, dto);
+        database.put(id, task);
     }
 
     public void delete(Integer id) {
         Task task = database.remove(id);
         if (task instanceof Feature feature) {
             feature.getSubtasks().forEach(subtask -> database.remove(subtask.getId()));
-        }
-    }
-
-    private <T extends Task> T map(T task, CreateUpdateTaskDto dto) {
-        if (task.getId() == null) {
-            task.setId(sequence);
-            sequence++;
-        }
-        if (dto.getTitle() != null) {
-            task.setTitle(dto.getTitle());
-        }
-        if (dto.getDescription() != null) {
-            task.setDescription(dto.getDescription());
-        }
-        if (dto.getPriority() != null) {
-            task.setPriority(dto.getPriority());
-        }
-        if (dto.getStatus() == null) {
-            task.setStatus(Status.NEW);
-        } else {
-            task.setStatus(dto.getStatus());
-        }
-        return task;
-    }
-
-    private void validate(CreateUpdateTaskDto dto) {
-        if (dto.getTitle() != null && dto.getTitle().length() >= 30) {
-            throw new RuntimeException("Длина заголовка больше 30 символов в сервисе: " + serviceName);
-        }
-        if (dto.getDescription() != null && dto.getDescription().length() >= 200) {
-            throw new RuntimeException("Длина описания больше 200 символов в сервисе: " + serviceName);
         }
     }
 

@@ -21,7 +21,7 @@ public class Task {
 
     private Status status;
 
-    private final Instant createdAt = Instant.now();
+    private Instant createdAt;
 
     private Instant updatedAt;
 

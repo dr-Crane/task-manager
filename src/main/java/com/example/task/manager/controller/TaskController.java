@@ -3,6 +3,7 @@ package com.example.task.manager.controller;
 import com.example.task.manager.dal.Task;
 import com.example.task.manager.dto.CreateUpdateTaskDto;
 import com.example.task.manager.service.TaskService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,10 @@ public class TaskController {
     private final TaskService service;
 
     @PostMapping("/task")
-    public void create(@RequestBody CreateUpdateTaskDto dto) {
+    public void create(
+            @Valid
+            @RequestBody CreateUpdateTaskDto dto
+    ) {
         service.create(dto);
     }
 

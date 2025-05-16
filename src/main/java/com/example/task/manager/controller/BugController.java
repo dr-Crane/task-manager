@@ -4,8 +4,7 @@ import com.example.task.manager.dal.Task;
 import com.example.task.manager.dto.CreateUpdateTaskDto;
 import com.example.task.manager.service.TaskService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,14 +15,8 @@ public class BugController {
     private final TaskService service;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody CreateUpdateTaskDto dto) {
-        try {
-            service.create(dto);
-            return ResponseEntity.ok(null);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(e.getMessage());
-        }
+    public void create(@RequestBody CreateUpdateTaskDto dto) {
+        service.create(dto);
     }
 
     @GetMapping("/{id}")
@@ -32,17 +25,11 @@ public class BugController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(
+    public void update(
             @PathVariable Integer id,
             @RequestBody CreateUpdateTaskDto body
     ) {
-        try {
-            service.update(id, body);
-            return ResponseEntity.ok(null);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(e.getMessage());
-        }
+        service.update(id, body);
     }
 
     @DeleteMapping("/{id}")
