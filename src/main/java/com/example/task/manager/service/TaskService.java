@@ -4,14 +4,17 @@ import com.example.task.manager.dal.Feature;
 import com.example.task.manager.dal.Task;
 import com.example.task.manager.dto.CreateUpdateFeatureDto;
 import com.example.task.manager.dto.CreateUpdateTaskDto;
+import com.example.task.manager.exception.InvalidTitleException;
 import com.example.task.manager.mapper.TaskMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @RequiredArgsConstructor
 public class TaskService {
 
@@ -20,6 +23,13 @@ public class TaskService {
     private final TaskMapper mapper;
 
     public void create(CreateUpdateTaskDto dto) {
+        String title = dto.getTitle();
+        if(!title.matches("^[а-яА-ЯёЁ ]*$")){
+            String message = "Не допустимое имя задачи!";
+            log.error(message);
+            throw new InvalidTitleException(message);
+        }
+
         Task task = mapper.mapForCreate(sequence, dto);
         sequence++;
         database.put(task.getId(), task);
