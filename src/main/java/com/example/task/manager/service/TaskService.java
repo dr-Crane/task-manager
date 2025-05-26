@@ -6,8 +6,10 @@ import com.example.task.manager.dto.CreateUpdateFeatureDto;
 import com.example.task.manager.dto.CreateUpdateTaskDto;
 import com.example.task.manager.exception.InvalidTitleException;
 import com.example.task.manager.mapper.TaskMapper;
+import com.example.task.manager.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -15,16 +17,18 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
+@Service
 @RequiredArgsConstructor
 public class TaskService {
 
     private int sequence = 1;
     private final Map<Integer, Task> database = new HashMap<>();
     private final TaskMapper mapper;
+    private final TaskRepository repository;
 
     public void create(CreateUpdateTaskDto dto) {
         String title = dto.getTitle();
-        if(!title.matches("^[а-яА-ЯёЁ ]*$")){
+        if (!title.matches("^[а-яА-ЯёЁ ]*$")) {
             String message = "Не допустимое имя задачи!";
             log.error(message);
             throw new InvalidTitleException(message);
@@ -48,12 +52,12 @@ public class TaskService {
         return feature.getId();
     }
 
-    public Task read(Integer id) {
-        return database.get(id);
+    public Task read(Long id) {
+        return repository.getById(id);
     }
 
     public List<Task> read() {
-        return database.values().stream().toList();
+        return repository.get();
     }
 
     public void update(Integer id, CreateUpdateTaskDto dto) {

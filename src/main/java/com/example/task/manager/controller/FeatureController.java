@@ -28,7 +28,7 @@ public class FeatureController {
     }
 
     @GetMapping("/{id}")
-    public Feature read(@PathVariable Integer id) {
+    public Feature read(@PathVariable Long id) {
         return (Feature) service.read(id);
     }
 

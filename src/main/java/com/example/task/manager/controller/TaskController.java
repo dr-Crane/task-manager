@@ -25,8 +25,8 @@ public class TaskController {
         service.create(dto);
     }
 
-    @GetMapping("/task")
-    public Task read(@RequestParam Integer id) {
+    @GetMapping("/task/{id}")
+    public Task read(@PathVariable Long id) {
         return service.read(id);
     }
 

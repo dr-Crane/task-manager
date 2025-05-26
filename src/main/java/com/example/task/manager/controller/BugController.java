@@ -24,7 +24,7 @@ public class BugController {
     }
 
     @GetMapping("/{id}")
-    public Task read(@PathVariable Integer id) {
+    public Task read(@PathVariable Long id) {
         return service.read(id);
     }
 
