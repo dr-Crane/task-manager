@@ -4,6 +4,8 @@ import com.example.task.manager.dal.Priority;
 import com.example.task.manager.dal.Status;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 
@@ -31,8 +33,10 @@ public class TaskEntity {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @CreationTimestamp
     private Instant createdAt;
 
+    @UpdateTimestamp
     private Instant updatedAt;
 
 }

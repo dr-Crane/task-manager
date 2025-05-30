@@ -21,7 +21,6 @@ public interface TaskMapper {
     Task mapForCreate(Integer id, CreateUpdateTaskDto dto);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", expression = "java(Instant.now())")
     @Mapping(target = "status", constant = "NEW")
     TaskEntity mapForCreate(CreateUpdateTaskDto dto);
 
