@@ -2,6 +2,7 @@ package com.example.task.manager.mapper;
 
 import com.example.task.manager.dal.Feature;
 import com.example.task.manager.dal.Task;
+import com.example.task.manager.dal.entity.TaskEntity;
 import com.example.task.manager.dto.CreateUpdateTaskDto;
 import org.mapstruct.*;
 
@@ -18,6 +19,11 @@ public interface TaskMapper {
     @Mapping(target = "createdAt", expression = "java(Instant.now())")
     @Mapping(target = "status", constant = "NEW")
     Task mapForCreate(Integer id, CreateUpdateTaskDto dto);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", expression = "java(Instant.now())")
+    @Mapping(target = "status", constant = "NEW")
+    TaskEntity mapForCreate(CreateUpdateTaskDto dto);
 
     @Mapping(target = "id", source = "id")
     @Mapping(target = "createdAt", expression = "java(Instant.now())")

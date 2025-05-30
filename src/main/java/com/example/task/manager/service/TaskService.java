@@ -2,11 +2,13 @@ package com.example.task.manager.service;
 
 import com.example.task.manager.dal.Feature;
 import com.example.task.manager.dal.Task;
+import com.example.task.manager.dal.entity.TaskEntity;
 import com.example.task.manager.dto.CreateUpdateFeatureDto;
 import com.example.task.manager.dto.CreateUpdateTaskDto;
 import com.example.task.manager.exception.InvalidTitleException;
 import com.example.task.manager.mapper.TaskMapper;
-import com.example.task.manager.repository.TaskRepository;
+import com.example.task.manager.repository.TaskJdbcRepository;
+import com.example.task.manager.repository.TaskJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,8 @@ public class TaskService {
     private int sequence = 1;
     private final Map<Integer, Task> database = new HashMap<>();
     private final TaskMapper mapper;
-    private final TaskRepository repository;
+    private final TaskJdbcRepository repository;
+    private final TaskJpaRepository jpaRepository;
 
     public void create(CreateUpdateTaskDto dto) {
         String title = dto.getTitle();
@@ -34,9 +37,8 @@ public class TaskService {
             throw new InvalidTitleException(message);
         }
 
-        Task task = mapper.mapForCreate(sequence, dto);
-        sequence++;
-        database.put(task.getId(), task);
+        TaskEntity task = mapper.mapForCreate(dto);
+        jpaRepository.save(task);
     }
 
     public Integer create(CreateUpdateFeatureDto dto) {
@@ -68,10 +70,7 @@ public class TaskService {
     }
 
     public void delete(Integer id) {
-        Task task = database.remove(id);
-        if (task instanceof Feature feature) {
-            feature.getSubtasks().forEach(subtask -> database.remove(subtask.getId()));
-        }
+        jpaRepository.deleteById(id);
     }
 
 }

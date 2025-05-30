@@ -12,10 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 public class CreateUpdateTaskDto {
 
-    @Max(value = 30, message = "Длина не больше 30")
+    @Size(max = 40, message = "Длина не больше 30")
     private String title;
 
-    @Max(value = 200, message = "Длина не больше 200")
+    @Size(max = 200, message = "Длина не больше 200")
     private String description;
 
     private Priority priority;

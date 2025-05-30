@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class TaskRepository {
+public class TaskJdbcRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
