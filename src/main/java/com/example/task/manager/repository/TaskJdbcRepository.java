@@ -1,8 +1,8 @@
 package com.example.task.manager.repository;
 
-import com.example.task.manager.dal.Priority;
-import com.example.task.manager.dal.Status;
-import com.example.task.manager.dal.Task;
+import com.example.task.manager.dal.entity.TaskEntity;
+import com.example.task.manager.dal.enumeration.Priority;
+import com.example.task.manager.dal.enumeration.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -17,11 +17,11 @@ public class TaskJdbcRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public List<Task> get() {
+    public List<TaskEntity> get() {
         return jdbcTemplate.query(
                 "SELECT * FROM tasks;",
                 (rs, rowNum) -> {
-                    var task = new Task()
+                    var task = new TaskEntity()
                             .setId(rs.getInt("id"))
                             .setTitle(rs.getString("title"))
                             .setDescription(rs.getString("description"))
@@ -37,13 +37,13 @@ public class TaskJdbcRepository {
         );
     }
 
-    public Task getById(Long id) {
+    public TaskEntity getById(Long id) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("id", id);
         return jdbcTemplate.query(
                 "SELECT * FROM tasks WHERE id = :id;",
                 parameterSource,
-                (rs, rowNum) -> new Task()
+                (rs, rowNum) -> new TaskEntity()
                         .setId(rs.getInt("id"))
                         .setTitle(rs.getString("title"))
                         .setDescription(rs.getString("description"))

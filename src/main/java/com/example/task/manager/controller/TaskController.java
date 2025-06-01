@@ -1,6 +1,6 @@
 package com.example.task.manager.controller;
 
-import com.example.task.manager.dal.Task;
+import com.example.task.manager.dal.entity.TaskEntity;
 import com.example.task.manager.dto.CreateUpdateTaskDto;
 import com.example.task.manager.service.TaskService;
 import jakarta.validation.Valid;
@@ -9,15 +9,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Deprecated
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/task")
 @RequiredArgsConstructor
 public class TaskController {
 
     private final TaskService service;
 
-    @PostMapping("/task")
+    @PostMapping
     public void create(
             @Valid
             @RequestBody CreateUpdateTaskDto dto
@@ -25,17 +24,17 @@ public class TaskController {
         service.create(dto);
     }
 
-    @GetMapping("/task/{id}")
-    public Task read(@PathVariable Long id) {
-        return service.read(id);
-    }
-
-    @GetMapping("/tasks")
-    public List<Task> read() {
+    @GetMapping
+    public List<TaskEntity> read() {
         return service.read();
     }
 
-    @PutMapping("/task/{id}")
+    @GetMapping("/{id}")
+    public TaskEntity read(@PathVariable Integer id) {
+        return service.read(id);
+    }
+
+    @PutMapping("/{id}")
     public void update(
             @PathVariable Integer id,
             @RequestBody CreateUpdateTaskDto body
@@ -43,7 +42,7 @@ public class TaskController {
         service.update(id, body);
     }
 
-    @DeleteMapping("/task/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         service.delete(id);
     }

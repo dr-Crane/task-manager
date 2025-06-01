@@ -1,9 +1,10 @@
 package com.example.task.manager.dal.entity;
 
-import com.example.task.manager.dal.Priority;
-import com.example.task.manager.dal.Status;
+import com.example.task.manager.dal.enumeration.Priority;
+import com.example.task.manager.dal.enumeration.Status;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,6 +13,7 @@ import java.time.Instant;
 @Data
 @Entity
 @Table(name = "tasks")
+@Accessors(chain = true)
 public class TaskEntity {
 
     @Id
