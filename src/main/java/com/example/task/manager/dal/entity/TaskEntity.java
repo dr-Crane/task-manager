@@ -1,10 +1,14 @@
 package com.example.task.manager.dal.entity;
 
-import com.example.task.manager.dal.Priority;
-import com.example.task.manager.dal.Status;
+import com.example.task.manager.dal.enumeration.Priority;
+import com.example.task.manager.dal.enumeration.Status;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
@@ -12,6 +16,7 @@ import java.time.Instant;
 @Data
 @Entity
 @Table(name = "tasks")
+@Accessors(chain = true)
 public class TaskEntity {
 
     @Id
@@ -38,5 +43,11 @@ public class TaskEntity {
 
     @UpdateTimestamp
     private Instant updatedAt;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "responsible")
+//    @JsonBackReference
+//    @JsonIgnore
+//    private UserEntity user;
 
 }

@@ -10,15 +10,15 @@ import java.time.Instant;
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
 
-    @ExceptionHandler(exception = InvalidTitleException.class)
+    @ExceptionHandler(exception = NoSuchTaskException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionModel handleInvalidTitleException(
-            InvalidTitleException exception
+            NoSuchTaskException exception
     ) {
         return ExceptionModel.builder()
                 .message(exception.getMessage())
                 .timestamp(Instant.now())
-                .status(HttpStatus.BAD_REQUEST)
+                .status(HttpStatus.NOT_FOUND)
                 .build();
     }
 
