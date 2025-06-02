@@ -29,7 +29,9 @@ public class TaskService {
     }
 
     public TaskEntity read(Integer id) {
-        return jpaRepository.findById(id).orElse(null);
+        return jpaRepository.findById(id).orElseThrow(
+                () -> new NoSuchTaskException(String.format("Задачи с ID = %d не существует", id))
+        );
     }
 
     public void update(Integer id, CreateUpdateTaskDto dto) {
