@@ -19,7 +19,8 @@ public class TaskController {
     @PostMapping
     public void create(
             @Valid
-            @RequestBody CreateUpdateTaskDto dto
+            @RequestBody
+            CreateUpdateTaskDto dto
     ) {
         service.create(dto);
     }
@@ -36,8 +37,11 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public void update(
-            @PathVariable Integer id,
-            @RequestBody CreateUpdateTaskDto body
+            @PathVariable
+            Integer id,
+            @Valid
+            @RequestBody
+            CreateUpdateTaskDto body
     ) {
         service.update(id, body);
     }
