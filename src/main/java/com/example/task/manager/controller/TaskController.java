@@ -2,6 +2,7 @@ package com.example.task.manager.controller;
 
 import com.example.task.manager.dal.entity.TaskEntity;
 import com.example.task.manager.dto.CreateUpdateTaskDto;
+import com.example.task.manager.dto.TaskDto;
 import com.example.task.manager.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<TaskEntity> read() {
+    public List<TaskDto> read() {
         return service.read();
     }
 

@@ -4,6 +4,7 @@ import com.example.task.manager.dal.enumeration.Priority;
 import com.example.task.manager.dal.enumeration.Status;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -44,10 +45,9 @@ public class TaskEntity {
     @UpdateTimestamp
     private Instant updatedAt;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "responsible")
-//    @JsonBackReference
-//    @JsonIgnore
-//    private UserEntity user;
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "responsible")
+    private UserEntity user;
 
 }

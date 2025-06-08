@@ -1,7 +1,10 @@
 package com.example.task.manager.dal.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 import java.util.List;
@@ -20,10 +23,8 @@ public class UserEntity {
 
     private String email;
 
-    @OneToMany
-    @JoinColumn(name = "responsible")
-//    @OneToMany(mappedBy = "user")
-//    @JsonManagedReference
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user")
     private List<TaskEntity> tasks;
 
 }
