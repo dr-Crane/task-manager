@@ -14,6 +14,7 @@ public class UserService {
 
     private final UserJpaRepository jpaRepository;
 
+    @Transactional(readOnly = true)
     public List<UserEntity> read() {
         return jpaRepository.findAll();
     }
