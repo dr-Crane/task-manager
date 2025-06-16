@@ -23,7 +23,7 @@ public class DefaultUserDetailsService implements UserDetailsService {
         return User.builder()
                 .username(user.getLogin())
                 .password(user.getPassword())
-                .roles("USER") // можно динамически из базы, но пока так
+                .roles(user.getRole().name())
                 .build();
     }
 

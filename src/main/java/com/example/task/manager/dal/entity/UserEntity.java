@@ -1,10 +1,8 @@
 package com.example.task.manager.dal.entity;
 
+import com.example.task.manager.dal.enumeration.Role;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
@@ -15,6 +13,12 @@ import java.util.List;
 public class UserEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id")
+    @SequenceGenerator(
+            name = "user_id",
+            sequenceName = "user_id",
+            allocationSize = 1
+    )
     private Integer id;
 
     private String login;
@@ -22,6 +26,9 @@ public class UserEntity {
     private String password;
 
     private String username;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     private String email;
 
